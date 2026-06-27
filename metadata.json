@@ -1,0 +1,6 @@
+{
+  "name": "NextCut Studio",
+  "description": "NextCut Studio is a premium, offline-first mobile video editor featuring a multi-layer timeline, transitions, visual effects, and color grading.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
