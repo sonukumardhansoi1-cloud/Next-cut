@@ -1,4 +1,5 @@
 import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
+import java.io.File as JFile
 
 plugins {
   alias(libs.plugins.android.application)
@@ -128,3 +129,25 @@ dependencies {
   "ksp"(libs.androidx.room.compiler)
   "ksp"(libs.moshi.kotlin.codegen)
 }
+
+val rootPath = rootDir.absolutePath
+val buildPath = layout.buildDirectory.get().asFile.absolutePath
+
+tasks.register("copyApkToRoot") {
+  notCompatibleWithConfigurationCache("Copies output APK to root directory")
+  doLast {
+    val src = JFile(buildPath, "outputs/apk/debug/app-debug.apk")
+    val dest = JFile(rootPath, "Download-My-App.apk")
+    if (src.exists()) {
+      src.copyTo(dest, overwrite = true)
+      println("Successfully copied APK to ${dest.absolutePath}")
+    } else {
+      println("Source APK not found at ${src.absolutePath}")
+    }
+  }
+}
+
+afterEvaluate {
+  tasks.findByName("assembleDebug")?.finalizedBy("copyApkToRoot")
+}
+
